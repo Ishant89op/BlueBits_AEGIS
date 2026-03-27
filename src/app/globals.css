@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #F0F4FF;
+  --color-surface: #FFFFFF;
+  --color-border: #E2E8F0;
+  --color-accent: #059669;
+  --color-warning: #D97706;
+  --color-danger: #DC2626;
+  --color-text: #0F172A;
+  --color-text-muted: #64748B;
+}
+
+.dark {
+  --color-bg: #0A0E1A;
+  --color-surface: #111827;
+  --color-border: #1F2937;
+  --color-accent: #00FF88;
+  --color-warning: #FACC15;
+  --color-danger: #EF4444;
+  --color-text: #F1F5F9;
+  --color-text-muted: #6B7280;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Inter', sans-serif;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+}
+
+.scanline-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.3;
+}
+
+.grid-cols-25 {
+  grid-template-columns: repeat(25, minmax(0, 1fr));
+}
