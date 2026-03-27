@@ -31,7 +31,7 @@ export function detectSleepers(
     serialMap.set(node.node_uuid, decoded);
   }
   const reports: SleeperReport[] = [];
-  for (const [nodeId, entry] of nodeMap.entries())
+  for (const [nodeId, entry] of Array.from(nodeMap.entries()))
   {
     const mean = entry.total / entry.count;
     reports.push({

@@ -37,11 +37,11 @@ export async function GET(): Promise<NextResponse<ThreatReport>>
     [HttpStatus.DDOS]: [],
     [HttpStatus.UNKNOWN]: [],
   };
-  for (const [nodeId, codeMap] of nodeStatusMap.entries())
+  for (const [nodeId, codeMap] of Array.from(nodeStatusMap.entries()))
   {
     let dominantCode = 200;
     let maxCount = 0;
-    for (const [code, count] of codeMap.entries())
+    for (const [code, count] of Array.from(codeMap.entries()))
     {
       if (count > maxCount)
       {

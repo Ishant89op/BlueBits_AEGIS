@@ -24,7 +24,7 @@ export function identifyShadowController(
   }
   let maxNodeId = -1;
   let maxCount = 0;
-  for (const [nodeId, count] of countMap.entries())
+  for (const [nodeId, count] of Array.from(countMap.entries()))
   {
     if (count > maxCount)
     {
