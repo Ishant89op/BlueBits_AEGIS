@@ -155,7 +155,7 @@ export default function AssetRegistry()
                     hover:text-aegis-text"
                   onClick={() => handleSort('node_uuid')}
                 >
-                  Node UUID {sortKey === 'node_uuid' ? (sortAsc ? '^' : 'v') : ''}
+                  Node UUID {sortKey === 'node_uuid' ? (sortAsc ? ' ▲' : ' ▼') : ''}
                 </th>
                 <th className="py-3 px-2 font-normal uppercase">
                   Encoded Serial
@@ -166,14 +166,14 @@ export default function AssetRegistry()
                   onClick={() => handleSort('decoded_serial')}
                 >
                   Decoded Serial {sortKey === 'decoded_serial'
-                    ? (sortAsc ? '^' : 'v') : ''}
+                    ? (sortAsc ? ' ▲' : ' ▼') : ''}
                 </th>
                 <th
                   className="py-3 px-2 font-normal uppercase cursor-pointer
                     hover:text-aegis-text"
                   onClick={() => handleSort('is_infected')}
                 >
-                  Status {sortKey === 'is_infected' ? (sortAsc ? '^' : 'v') : ''}
+                  Status {sortKey === 'is_infected' ? (sortAsc ? ' ▲' : ' ▼') : ''}
                 </th>
               </tr>
             </thead>
