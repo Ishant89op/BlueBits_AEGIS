@@ -2,9 +2,6 @@
 
 Automated Extraction and Graphical Information System for forensic analysis of network nodes in Nexus City.
 
-<div align="center">
-  <img src="./public/logo.png" alt="AEGIS Shield Logo" width="120" />
-</div>
 
 ## Project Overview
 
