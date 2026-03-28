@@ -36,13 +36,10 @@ export default function CityMap()
   const filteredNodes = useCallback(() =>
   {
     if (filter === 'ALL') return nodes;
-    const statusMap: Record<FilterType, HttpStatus> = {
-      ALL: HttpStatus.OPERATIONAL,
-      DDOS: HttpStatus.DDOS,
-      HIJACKED: HttpStatus.HIJACKED,
-      CLEAN: HttpStatus.OPERATIONAL,
-    };
-    return nodes.filter((n) => n.true_status === statusMap[filter]);
+    if (filter === 'DDOS') return nodes.filter((n) => n.true_status === HttpStatus.DDOS);
+    if (filter === 'HIJACKED') return nodes.filter((n) => n.true_status === HttpStatus.HIJACKED);
+    if (filter === 'CLEAN') return nodes.filter((n) => n.true_status === HttpStatus.OPERATIONAL);
+    return nodes;
   }, [nodes, filter]);
   const handleMouseEnter = (
     node: ClassifiedNode,
