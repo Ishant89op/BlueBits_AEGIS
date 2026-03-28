@@ -23,16 +23,25 @@ export default function CityMap()
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [selectedNode, setSelectedNode] = useState<ClassifiedNode | null>(null);
   const [loading, setLoading] = useState(true);
-  useEffect(() =>
+  const [error, setError] = useState<string | null>(null);
+  const loadNodes = () =>
   {
+    setLoading(true);
+    setError(null);
     fetch('/api/nodes')
       .then((res) => res.json())
       .then((data: ClassifiedNode[]) =>
       {
         setNodes(data);
         setLoading(false);
+      })
+      .catch(() =>
+      {
+        setError('Failed to load node data');
+        setLoading(false);
       });
-  }, []);
+  };
+  useEffect(() => { loadNodes(); }, []);
   const filteredNodes = useCallback(() =>
   {
     if (filter === 'ALL') return nodes;
@@ -64,6 +73,22 @@ export default function CityMap()
         <div className="text-aegis-accent font-mono text-sm animate-pulse">
           LOADING NODE GRID...
         </div>
+      </div>
+    );
+  }
+  if (error)
+  {
+    return (
+      <div className="bg-aegis-surface border border-aegis-danger/30 p-6
+        flex flex-col items-center justify-center min-h-[400px] gap-4">
+        <p className="text-aegis-danger font-mono text-xs">{error}</p>
+        <button
+          onClick={loadNodes}
+          className="px-4 py-2 bg-aegis-danger/10 border border-aegis-danger/30
+            text-aegis-danger font-mono text-xs hover:bg-aegis-danger/20"
+        >
+          RETRY
+        </button>
       </div>
     );
   }

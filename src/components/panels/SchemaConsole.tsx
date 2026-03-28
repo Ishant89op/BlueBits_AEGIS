@@ -14,17 +14,26 @@ export default function SchemaConsole()
 {
   const [data, setData] = useState<SchemaResponse | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
-  useEffect(() =>
+  const loadData = () =>
   {
+    setLoading(true);
+    setError(null);
     fetch('/api/schema')
       .then((r) => r.json())
       .then((d: SchemaResponse) =>
       {
         setData(d);
         setLoading(false);
+      })
+      .catch(() =>
+      {
+        setError('Failed to load schema data');
+        setLoading(false);
       });
-  }, []);
+  };
+  useEffect(() => { loadData(); }, []);
   useEffect(() =>
   {
     if (terminalRef.current)
@@ -40,6 +49,22 @@ export default function SchemaConsole()
         <div className="text-aegis-accent font-mono text-sm animate-pulse">
           LOADING SCHEMA DATA...
         </div>
+      </div>
+    );
+  }
+  if (error)
+  {
+    return (
+      <div className="bg-aegis-surface border border-aegis-danger/30 p-6
+        flex flex-col items-center justify-center min-h-[400px] gap-4">
+        <p className="text-aegis-danger font-mono text-xs">{error}</p>
+        <button
+          onClick={loadData}
+          className="px-4 py-2 bg-aegis-danger/10 border border-aegis-danger/30
+            text-aegis-danger font-mono text-xs hover:bg-aegis-danger/20"
+        >
+          RETRY
+        </button>
       </div>
     );
   }

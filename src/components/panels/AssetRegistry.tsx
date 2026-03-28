@@ -12,22 +12,31 @@ export default function AssetRegistry()
 {
   const [nodes, setNodes] = useState<ClassifiedNode[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<RegistryFilter>('ALL');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(0);
   const [sortKey, setSortKey] = useState<SortKey>('node_uuid');
   const [sortAsc, setSortAsc] = useState(true);
   const rowsPerPage = 50;
-  useEffect(() =>
+  const loadNodes = () =>
   {
+    setLoading(true);
+    setError(null);
     fetch('/api/nodes')
       .then((r) => r.json())
       .then((data: ClassifiedNode[]) =>
       {
         setNodes(data);
         setLoading(false);
+      })
+      .catch(() =>
+      {
+        setError('Failed to load node registry');
+        setLoading(false);
       });
-  }, []);
+  };
+  useEffect(() => { loadNodes(); }, []);
   const filtered = useMemo(() =>
   {
     let result = [...nodes];
@@ -100,6 +109,22 @@ export default function AssetRegistry()
     a.click();
     URL.revokeObjectURL(url);
   };
+  if (error)
+  {
+    return (
+      <div className="bg-aegis-surface border border-aegis-danger/30 p-6
+        flex flex-col items-center justify-center min-h-[200px] gap-4">
+        <p className="text-aegis-danger font-mono text-xs">{error}</p>
+        <button
+          onClick={loadNodes}
+          className="px-4 py-2 bg-aegis-danger/10 border border-aegis-danger/30
+            text-aegis-danger font-mono text-xs hover:bg-aegis-danger/20"
+        >
+          RETRY
+        </button>
+      </div>
+    );
+  }
   return (
     <div className="bg-aegis-surface border border-aegis-border/10 p-6
       flex flex-col gap-4">
