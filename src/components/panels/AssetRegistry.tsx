@@ -1,42 +1,23 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import type { ClassifiedNode } from '@/types';
 import Badge from '@/components/ui/Badge';
 import SkeletonTable from '@/components/ui/SkeletonTable';
+import { useAegisStore } from '@/store/useAegisStore';
 
 type RegistryFilter = 'ALL' | 'INFECTED' | 'CLEAN';
 type SortKey = 'node_uuid' | 'decoded_serial' | 'is_infected';
 
 export default function AssetRegistry()
 {
-  const [nodes, setNodes] = useState<ClassifiedNode[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { nodes, loading, error } = useAegisStore();
   const [filter, setFilter] = useState<RegistryFilter>('ALL');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(0);
   const [sortKey, setSortKey] = useState<SortKey>('node_uuid');
   const [sortAsc, setSortAsc] = useState(true);
   const rowsPerPage = 50;
-  const loadNodes = () =>
-  {
-    setLoading(true);
-    setError(null);
-    fetch('/api/nodes')
-      .then((r) => r.json())
-      .then((data: ClassifiedNode[]) =>
-      {
-        setNodes(data);
-        setLoading(false);
-      })
-      .catch(() =>
-      {
-        setError('Failed to load node registry');
-        setLoading(false);
-      });
-  };
-  useEffect(() => { loadNodes(); }, []);
   const filtered = useMemo(() =>
   {
     let result = [...nodes];
@@ -116,7 +97,7 @@ export default function AssetRegistry()
         flex flex-col items-center justify-center min-h-[200px] gap-4">
         <p className="text-aegis-danger font-mono text-xs">{error}</p>
         <button
-          onClick={loadNodes}
+          onClick={() => window.location.reload()}
           className="px-4 py-2 bg-aegis-danger/10 border border-aegis-danger/30
             text-aegis-danger font-mono text-xs hover:bg-aegis-danger/20"
         >

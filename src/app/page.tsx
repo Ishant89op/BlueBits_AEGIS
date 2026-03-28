@@ -1,32 +1,68 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import StatCard from '@/components/ui/StatCard';
 import AlertBanner from '@/components/ui/AlertBanner';
 import CityMap from '@/components/panels/CityMap';
 import SleeperHeatmap from '@/components/panels/SleeperHeatmap';
 import SchemaConsole from '@/components/panels/SchemaConsole';
 import AssetRegistry from '@/components/panels/AssetRegistry';
-import type { ThreatReport } from '@/types';
+import { useAegisStore } from '@/store/useAegisStore';
+import type { ClassifiedNode, ThreatReport } from '@/types';
 
 export default function HomePage()
 {
-  const [report, setReport] = useState<ThreatReport | null>(null);
+  const {
+    nodes,
+    threatReport: report,
+    loading,
+    error,
+    initialised,
+    setNodes,
+    setThreatReport,
+    setLoading,
+    setError,
+    setInitialised,
+  } = useAegisStore();
+
   useEffect(() =>
   {
-    fetch('/api/threat-report')
-      .then((r) => r.json())
-      .then((data: ThreatReport) => setReport(data));
-  }, []);
+    if (initialised) return;
+    setLoading(true);
+    setError(null);
+    Promise.all([
+      fetch('/api/nodes').then((r) => r.json()),
+      fetch('/api/threat-report').then((r) => r.json()),
+    ])
+      .then(([nodeData, threatData]: [ClassifiedNode[], ThreatReport]) =>
+      {
+        setNodes(nodeData);
+        setThreatReport(threatData);
+        setLoading(false);
+        setInitialised(true);
+      })
+      .catch(() =>
+      {
+        setError('Failed to load dashboard data');
+        setLoading(false);
+      });
+  }, [initialised, setNodes, setThreatReport, setLoading, setError, setInitialised]);
+
   return (
     <div className="flex flex-col gap-6">
       <AlertBanner
         message={`THREAT DETECTED - ${report?.infected_count ?? '...'} COMPROMISED NODES`}
       />
+      {error && (
+        <div className="bg-aegis-danger/10 border border-aegis-danger/30 p-4
+          font-mono text-xs text-aegis-danger text-center">
+          {error}
+        </div>
+      )}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <StatCard
           title="Total Nodes"
-          value={report?.total_nodes ?? '...'}
+          value={loading ? '...' : report?.total_nodes ?? nodes.length}
           subtitle="CLUSTER: NORTH_1"
           icon="storage"
           borderColor="border-slate-600"

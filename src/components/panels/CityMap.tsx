@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback, useState, type MouseEvent } from 'react';
 import { HttpStatus } from '@/types';
 import type { ClassifiedNode } from '@/types';
 import NodeTooltip from '@/components/ui/NodeTooltip';
 import NodeDetailPanel from '@/components/ui/NodeDetailPanel';
+import { useAegisStore } from '@/store/useAegisStore';
 
 type FilterType = 'ALL' | 'DDOS' | 'HIJACKED' | 'CLEAN';
 
@@ -17,31 +18,11 @@ const statusColorMap: Record<HttpStatus, string> = {
 
 export default function CityMap()
 {
-  const [nodes, setNodes] = useState<ClassifiedNode[]>([]);
+  const { nodes, loading, error } = useAegisStore();
   const [filter, setFilter] = useState<FilterType>('ALL');
   const [hoveredNode, setHoveredNode] = useState<ClassifiedNode | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [selectedNode, setSelectedNode] = useState<ClassifiedNode | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const loadNodes = () =>
-  {
-    setLoading(true);
-    setError(null);
-    fetch('/api/nodes')
-      .then((res) => res.json())
-      .then((data: ClassifiedNode[]) =>
-      {
-        setNodes(data);
-        setLoading(false);
-      })
-      .catch(() =>
-      {
-        setError('Failed to load node data');
-        setLoading(false);
-      });
-  };
-  useEffect(() => { loadNodes(); }, []);
   const filteredNodes = useCallback(() =>
   {
     if (filter === 'ALL') return nodes;
@@ -52,13 +33,13 @@ export default function CityMap()
   }, [nodes, filter]);
   const handleMouseEnter = (
     node: ClassifiedNode,
-    e: React.MouseEvent
+    e: MouseEvent
   ) =>
   {
     setHoveredNode(node);
     setTooltipPos({ x: e.clientX, y: e.clientY });
   };
-  const handleMouseMove = (e: React.MouseEvent) =>
+  const handleMouseMove = (e: MouseEvent) =>
   {
     if (hoveredNode)
     {
@@ -83,7 +64,7 @@ export default function CityMap()
         flex flex-col items-center justify-center min-h-[400px] gap-4">
         <p className="text-aegis-danger font-mono text-xs">{error}</p>
         <button
-          onClick={loadNodes}
+          onClick={() => window.location.reload()}
           className="px-4 py-2 bg-aegis-danger/10 border border-aegis-danger/30
             text-aegis-danger font-mono text-xs hover:bg-aegis-danger/20"
         >
