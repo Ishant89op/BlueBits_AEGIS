@@ -79,7 +79,7 @@ export default function HomePage()
           <span>OPERATOR: 772-X</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="tracking-widest">AEGIS CYBERNETICS DIV. 2025</span>
+          <span className="tracking-widest">AEGIS CYBERNETICS DIV. 2026</span>
         </div>
       </footer>
     </div>
