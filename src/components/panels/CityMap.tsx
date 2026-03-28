@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback, useState, type MouseEvent } from 'react';
 import { HttpStatus } from '@/types';
 import type { ClassifiedNode } from '@/types';
 import NodeTooltip from '@/components/ui/NodeTooltip';
 import NodeDetailPanel from '@/components/ui/NodeDetailPanel';
+import { useAegisStore } from '@/store/useAegisStore';
 
 type FilterType = 'ALL' | 'DDOS' | 'HIJACKED' | 'CLEAN';
 
@@ -17,42 +18,28 @@ const statusColorMap: Record<HttpStatus, string> = {
 
 export default function CityMap()
 {
-  const [nodes, setNodes] = useState<ClassifiedNode[]>([]);
+  const { nodes, loading, error } = useAegisStore();
   const [filter, setFilter] = useState<FilterType>('ALL');
   const [hoveredNode, setHoveredNode] = useState<ClassifiedNode | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [selectedNode, setSelectedNode] = useState<ClassifiedNode | null>(null);
-  const [loading, setLoading] = useState(true);
-  useEffect(() =>
-  {
-    fetch('/api/nodes')
-      .then((res) => res.json())
-      .then((data: ClassifiedNode[]) =>
-      {
-        setNodes(data);
-        setLoading(false);
-      });
-  }, []);
   const filteredNodes = useCallback(() =>
   {
     if (filter === 'ALL') return nodes;
-    const statusMap: Record<FilterType, HttpStatus> = {
-      ALL: HttpStatus.OPERATIONAL,
-      DDOS: HttpStatus.DDOS,
-      HIJACKED: HttpStatus.HIJACKED,
-      CLEAN: HttpStatus.OPERATIONAL,
-    };
-    return nodes.filter((n) => n.true_status === statusMap[filter]);
+    if (filter === 'DDOS') return nodes.filter((n: ClassifiedNode) => n.true_status === HttpStatus.DDOS);
+    if (filter === 'HIJACKED') return nodes.filter((n: ClassifiedNode) => n.true_status === HttpStatus.HIJACKED);
+    if (filter === 'CLEAN') return nodes.filter((n: ClassifiedNode) => n.true_status === HttpStatus.OPERATIONAL);
+    return nodes;
   }, [nodes, filter]);
   const handleMouseEnter = (
     node: ClassifiedNode,
-    e: React.MouseEvent
+    e: MouseEvent
   ) =>
   {
     setHoveredNode(node);
     setTooltipPos({ x: e.clientX, y: e.clientY });
   };
-  const handleMouseMove = (e: React.MouseEvent) =>
+  const handleMouseMove = (e: MouseEvent) =>
   {
     if (hoveredNode)
     {
@@ -67,6 +54,22 @@ export default function CityMap()
         <div className="text-aegis-accent font-mono text-sm animate-pulse">
           LOADING NODE GRID...
         </div>
+      </div>
+    );
+  }
+  if (error)
+  {
+    return (
+      <div className="bg-aegis-surface border border-aegis-danger/30 p-6
+        flex flex-col items-center justify-center min-h-[400px] gap-4">
+        <p className="text-aegis-danger font-mono text-xs">{error}</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-aegis-danger/10 border border-aegis-danger/30
+            text-aegis-danger font-mono text-xs hover:bg-aegis-danger/20"
+        >
+          RETRY
+        </button>
       </div>
     );
   }
@@ -107,7 +110,7 @@ export default function CityMap()
         onMouseMove={handleMouseMove}
       >
         <div className="grid grid-cols-25 gap-1 mx-auto max-w-4xl">
-          {displayed.map((node) => (
+          {displayed.map((node: ClassifiedNode) => (
             <div
               key={node.node_uuid}
               className="relative w-4 h-4 flex items-center justify-center

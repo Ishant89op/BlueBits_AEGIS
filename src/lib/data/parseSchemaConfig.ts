@@ -12,6 +12,7 @@ interface RawSchemaRow
 
 export function parseSchemaConfig(): SchemaVersion[]
 {
+  // To test the project with the larger sample dataset, change 'Aegis' to 'Aegis_StressTest' below
   const csvPath = path.join(process.cwd(), 'datasets', 'Aegis', 'schema_config.csv');
   const csvContent = fs.readFileSync(csvPath, 'utf-8');
   const result = Papa.parse<RawSchemaRow>(csvContent, {

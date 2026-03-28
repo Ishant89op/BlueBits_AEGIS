@@ -12,6 +12,7 @@ interface RawNodeRow
 
 export function parseNodeRegistry(): NodeRecord[]
 {
+  // To test the project with the larger sample dataset, change 'Aegis' to 'Aegis_StressTest' below
   const csvPath = path.join(process.cwd(), 'datasets', 'Aegis', 'node_registry.csv');
   const csvContent = fs.readFileSync(csvPath, 'utf-8');
   const result = Papa.parse<RawNodeRow>(csvContent, {

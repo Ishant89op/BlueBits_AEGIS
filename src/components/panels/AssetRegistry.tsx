@@ -1,33 +1,23 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import type { ClassifiedNode } from '@/types';
 import Badge from '@/components/ui/Badge';
 import SkeletonTable from '@/components/ui/SkeletonTable';
+import { useAegisStore } from '@/store/useAegisStore';
 
 type RegistryFilter = 'ALL' | 'INFECTED' | 'CLEAN';
 type SortKey = 'node_uuid' | 'decoded_serial' | 'is_infected';
 
 export default function AssetRegistry()
 {
-  const [nodes, setNodes] = useState<ClassifiedNode[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { nodes, loading, error } = useAegisStore();
   const [filter, setFilter] = useState<RegistryFilter>('ALL');
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(0);
   const [sortKey, setSortKey] = useState<SortKey>('node_uuid');
   const [sortAsc, setSortAsc] = useState(true);
   const rowsPerPage = 50;
-  useEffect(() =>
-  {
-    fetch('/api/nodes')
-      .then((r) => r.json())
-      .then((data: ClassifiedNode[]) =>
-      {
-        setNodes(data);
-        setLoading(false);
-      });
-  }, []);
   const filtered = useMemo(() =>
   {
     let result = [...nodes];
@@ -100,6 +90,22 @@ export default function AssetRegistry()
     a.click();
     URL.revokeObjectURL(url);
   };
+  if (error)
+  {
+    return (
+      <div className="bg-aegis-surface border border-aegis-danger/30 p-6
+        flex flex-col items-center justify-center min-h-[200px] gap-4">
+        <p className="text-aegis-danger font-mono text-xs">{error}</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="px-4 py-2 bg-aegis-danger/10 border border-aegis-danger/30
+            text-aegis-danger font-mono text-xs hover:bg-aegis-danger/20"
+        >
+          RETRY
+        </button>
+      </div>
+    );
+  }
   return (
     <div className="bg-aegis-surface border border-aegis-border/10 p-6
       flex flex-col gap-4">
@@ -137,7 +143,7 @@ export default function AssetRegistry()
           type="text"
           placeholder="Search serial or UUID..."
           value={search}
-          onChange={(e) => { setSearch(e.target.value); setPage(0); }}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setSearch(e.target.value); setPage(0); }}
           className="flex-1 px-3 py-1.5 bg-aegis-bg border border-aegis-border/20
             text-aegis-text font-mono text-[11px] focus:border-aegis-accent/50
             focus:outline-none"
@@ -155,7 +161,7 @@ export default function AssetRegistry()
                     hover:text-aegis-text"
                   onClick={() => handleSort('node_uuid')}
                 >
-                  Node UUID {sortKey === 'node_uuid' ? (sortAsc ? '^' : 'v') : ''}
+                  Node UUID {sortKey === 'node_uuid' ? (sortAsc ? ' ▲' : ' ▼') : ''}
                 </th>
                 <th className="py-3 px-2 font-normal uppercase">
                   Encoded Serial
@@ -166,19 +172,19 @@ export default function AssetRegistry()
                   onClick={() => handleSort('decoded_serial')}
                 >
                   Decoded Serial {sortKey === 'decoded_serial'
-                    ? (sortAsc ? '^' : 'v') : ''}
+                    ? (sortAsc ? ' ▲' : ' ▼') : ''}
                 </th>
                 <th
                   className="py-3 px-2 font-normal uppercase cursor-pointer
                     hover:text-aegis-text"
                   onClick={() => handleSort('is_infected')}
                 >
-                  Status {sortKey === 'is_infected' ? (sortAsc ? '^' : 'v') : ''}
+                  Status {sortKey === 'is_infected' ? (sortAsc ? ' ▲' : ' ▼') : ''}
                 </th>
               </tr>
             </thead>
             <tbody>
-              {pageData.map((node) => (
+              {pageData.map((node: ClassifiedNode) => (
                 <tr
                   key={node.node_uuid}
                   className={`border-b border-aegis-border/10

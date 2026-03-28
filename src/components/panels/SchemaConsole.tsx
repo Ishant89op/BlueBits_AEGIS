@@ -14,17 +14,26 @@ export default function SchemaConsole()
 {
   const [data, setData] = useState<SchemaResponse | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
-  useEffect(() =>
+  const loadData = () =>
   {
+    setLoading(true);
+    setError(null);
     fetch('/api/schema')
       .then((r) => r.json())
       .then((d: SchemaResponse) =>
       {
         setData(d);
         setLoading(false);
+      })
+      .catch(() =>
+      {
+        setError('Failed to load schema data');
+        setLoading(false);
       });
-  }, []);
+  };
+  useEffect(() => { loadData(); }, []);
   useEffect(() =>
   {
     if (terminalRef.current)
@@ -43,10 +52,26 @@ export default function SchemaConsole()
       </div>
     );
   }
+  if (error)
+  {
+    return (
+      <div className="bg-aegis-surface border border-aegis-danger/30 p-6
+        flex flex-col items-center justify-center min-h-[400px] gap-4">
+        <p className="text-aegis-danger font-mono text-xs">{error}</p>
+        <button
+          onClick={loadData}
+          className="px-4 py-2 bg-aegis-danger/10 border border-aegis-danger/30
+            text-aegis-danger font-mono text-xs hover:bg-aegis-danger/20"
+        >
+          RETRY
+        </button>
+      </div>
+    );
+  }
   const currentVersion = data.versions[data.versions.length - 1];
-  const rotationEvents = data.event_log.filter((e) => e.is_rotation_event);
+  const rotationEvents = data.event_log.filter((e: any) => e.is_rotation_event);
   const displayEntries = data.event_log.filter(
-    (_, i) => i % 50 === 0 || data.event_log[i].is_rotation_event
+    (_: any, i: number) => i % 50 === 0 || data.event_log[i].is_rotation_event
   );
   return (
     <div className="bg-aegis-surface border border-aegis-border/10 p-6
@@ -98,7 +123,7 @@ export default function SchemaConsole()
           scrollbarColor: '#313442 #0a0e1a',
         }}
       >
-        {displayEntries.map((entry) => (
+        {displayEntries.map((entry: any) => (
           <p
             key={entry.log_id}
             className={`mb-0.5 ${

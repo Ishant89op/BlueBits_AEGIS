@@ -24,8 +24,11 @@ export default function SleeperHeatmap()
   const [logData, setLogData] = useState<LogPoint[]>([]);
   const [sleepers, setSleepers] = useState<SleeperReport[]>([]);
   const [loading, setLoading] = useState(true);
-  useEffect(() =>
+  const [error, setError] = useState<string | null>(null);
+  const loadData = () =>
   {
+    setLoading(true);
+    setError(null);
     Promise.all([
       fetch('/api/logs?limit=10000').then((r) => r.json()),
       fetch('/api/threat-report').then((r) => r.json()),
@@ -37,11 +40,16 @@ export default function SleeperHeatmap()
       setLogData(sampled);
       setSleepers(threat.sleeper_nodes);
       setLoading(false);
+    }).catch(() =>
+    {
+      setError('Failed to load sleeper data');
+      setLoading(false);
     });
-  }, []);
+  };
+  useEffect(() => { loadData(); }, []);
   const chartData = useMemo(() =>
   {
-    return logData.map((log) => ({
+    return logData.map((log: LogPoint) => ({
       log_id: log.log_id,
       response_time_ms: log.response_time_ms,
     }));
@@ -54,6 +62,22 @@ export default function SleeperHeatmap()
         <div className="text-aegis-accent font-mono text-sm animate-pulse">
           ANALYZING RESPONSE PATTERNS...
         </div>
+      </div>
+    );
+  }
+  if (error)
+  {
+    return (
+      <div className="bg-aegis-surface border border-aegis-danger/30 p-6
+        flex flex-col items-center justify-center min-h-[400px] gap-4">
+        <p className="text-aegis-danger font-mono text-xs">{error}</p>
+        <button
+          onClick={loadData}
+          className="px-4 py-2 bg-aegis-danger/10 border border-aegis-danger/30
+            text-aegis-danger font-mono text-xs hover:bg-aegis-danger/20"
+        >
+          RETRY
+        </button>
       </div>
     );
   }
@@ -131,7 +155,7 @@ export default function SleeperHeatmap()
           Top 10 Sleeper Nodes
         </h3>
         <div className="space-y-2">
-          {sleepers.map((s, i) => (
+          {sleepers.map((s: SleeperReport, i: number) => (
             <div key={s.node_id} className="flex items-center gap-3">
               <span className="text-[10px] font-mono text-aegis-muted w-5">
                 {String(i + 1).padStart(2, '0')}

@@ -16,6 +16,7 @@ interface RawLogRow
 
 export function parseSystemLogs(): SystemLog[]
 {
+  // To test the project with the larger sample dataset, change 'Aegis' to 'Aegis_StressTest' below
   const csvPath = path.join(process.cwd(), 'datasets', 'Aegis', 'system_logs.csv');
   const csvContent = fs.readFileSync(csvPath, 'utf-8');
   const result = Papa.parse<RawLogRow>(csvContent, {
