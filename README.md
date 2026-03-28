@@ -29,22 +29,30 @@ Project AEGIS is a cyber defense infrastructure console designed to identify com
 1. Verify environment configuration: Ensure Node.js and npm are installed.
 2. The site logo has already been imported from your Downloads folder to \`public/logo.png\`. If you wish to change it, simply replace that file.
 3. Install the dependencies:
-   \`\`\`bash
+   ```bash
    npm install
-   \`\`\`
+   ```
 4. Launch the local development server:
-   \`\`\`bash
+   ```bash
    npm run dev
-   \`\`\`
-5. Open your browser and navigate to \`http://localhost:3000\`.
+   ```
+5. Open your browser and navigate to `http://localhost:3000`.
 
 ## Sample Datasets
 
 We have included two separate dataset arrays to test the system capabilities:
-- Main Dataset: Located inside \`datasets/Aegis/\`
-- Alternate Stress Test Dataset: Located inside \`datasets/Aegis_StressTest/\` (Use this for validating scaling and performance).
+- Main Dataset: Located inside `datasets/Aegis/`
+- Alternate Stress Test Dataset: Located inside `datasets/Aegis_StressTest/` (Use this for validating scaling and performance).
 
-To switch datasets, simply alter the reading directory path to \`datasets/Aegis_StressTest\` in \`src/lib/cache/dataCache.ts\` if necessary.
+To switch datasets, simply alter the reading directory path to `datasets/Aegis_StressTest` in `src/lib/cache/dataCache.ts` if necessary.
+
+## AI Usage Justification
+
+The use of AI in this project was limited to development support tasks such as brainstorming interface ideas, refining written documentation, and accelerating small implementation decisions. AI assistance helped reduce time spent on repetitive work and improved iteration speed during development, allowing the team to focus more attention on the forensic dashboard logic, dataset handling, and overall user experience.
+
+AI was used as a support tool rather than as an autonomous decision-maker. All architecture choices, feature selection, code integration, testing, and final review remained the responsibility of the project team. Any AI-generated suggestions were manually evaluated, adapted where necessary, and validated against the project requirements before being included in the final system.
+
+This approach was justified because it improved productivity without replacing human understanding or accountability. The final application design, behavior, and report content reflect the team's own judgment, with AI serving only as an assistive resource to speed up drafting, troubleshooting, and polish.
 
 ## License
 
