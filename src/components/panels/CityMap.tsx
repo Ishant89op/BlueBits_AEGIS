@@ -26,9 +26,9 @@ export default function CityMap()
   const filteredNodes = useCallback(() =>
   {
     if (filter === 'ALL') return nodes;
-    if (filter === 'DDOS') return nodes.filter((n) => n.true_status === HttpStatus.DDOS);
-    if (filter === 'HIJACKED') return nodes.filter((n) => n.true_status === HttpStatus.HIJACKED);
-    if (filter === 'CLEAN') return nodes.filter((n) => n.true_status === HttpStatus.OPERATIONAL);
+    if (filter === 'DDOS') return nodes.filter((n: ClassifiedNode) => n.true_status === HttpStatus.DDOS);
+    if (filter === 'HIJACKED') return nodes.filter((n: ClassifiedNode) => n.true_status === HttpStatus.HIJACKED);
+    if (filter === 'CLEAN') return nodes.filter((n: ClassifiedNode) => n.true_status === HttpStatus.OPERATIONAL);
     return nodes;
   }, [nodes, filter]);
   const handleMouseEnter = (
@@ -110,7 +110,7 @@ export default function CityMap()
         onMouseMove={handleMouseMove}
       >
         <div className="grid grid-cols-25 gap-1 mx-auto max-w-4xl">
-          {displayed.map((node) => (
+          {displayed.map((node: ClassifiedNode) => (
             <div
               key={node.node_uuid}
               className="relative w-4 h-4 flex items-center justify-center

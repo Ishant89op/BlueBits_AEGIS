@@ -69,9 +69,9 @@ export default function SchemaConsole()
     );
   }
   const currentVersion = data.versions[data.versions.length - 1];
-  const rotationEvents = data.event_log.filter((e) => e.is_rotation_event);
+  const rotationEvents = data.event_log.filter((e: any) => e.is_rotation_event);
   const displayEntries = data.event_log.filter(
-    (_, i) => i % 50 === 0 || data.event_log[i].is_rotation_event
+    (_: any, i: number) => i % 50 === 0 || data.event_log[i].is_rotation_event
   );
   return (
     <div className="bg-aegis-surface border border-aegis-border/10 p-6
@@ -123,7 +123,7 @@ export default function SchemaConsole()
           scrollbarColor: '#313442 #0a0e1a',
         }}
       >
-        {displayEntries.map((entry) => (
+        {displayEntries.map((entry: any) => (
           <p
             key={entry.log_id}
             className={`mb-0.5 ${

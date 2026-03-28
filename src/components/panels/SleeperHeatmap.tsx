@@ -49,7 +49,7 @@ export default function SleeperHeatmap()
   useEffect(() => { loadData(); }, []);
   const chartData = useMemo(() =>
   {
-    return logData.map((log) => ({
+    return logData.map((log: LogPoint) => ({
       log_id: log.log_id,
       response_time_ms: log.response_time_ms,
     }));
@@ -155,7 +155,7 @@ export default function SleeperHeatmap()
           Top 10 Sleeper Nodes
         </h3>
         <div className="space-y-2">
-          {sleepers.map((s, i) => (
+          {sleepers.map((s: SleeperReport, i: number) => (
             <div key={s.node_id} className="flex items-center gap-3">
               <span className="text-[10px] font-mono text-aegis-muted w-5">
                 {String(i + 1).padStart(2, '0')}

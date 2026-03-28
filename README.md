@@ -127,11 +127,11 @@ Datasets must be placed at `datasets/Aegis/*.csv` before running.
 
 ## Team
 
-| Name | Role |
-|---|---|
-| Ishant Yadav | Full-Stack + Engine |
-| Shreyash Chaurasia | Frontend + UI |
-| Kavya Sidh Sharma | Data Pipeline + Testing |
+| Name |
+|---|
+| Ishant Yadav |
+| Shreyash Chaurasia |
+| Kavya Siddh Sharma |
 
 ## Hackathon
 

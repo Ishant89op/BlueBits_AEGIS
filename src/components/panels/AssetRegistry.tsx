@@ -143,7 +143,7 @@ export default function AssetRegistry()
           type="text"
           placeholder="Search serial or UUID..."
           value={search}
-          onChange={(e) => { setSearch(e.target.value); setPage(0); }}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setSearch(e.target.value); setPage(0); }}
           className="flex-1 px-3 py-1.5 bg-aegis-bg border border-aegis-border/20
             text-aegis-text font-mono text-[11px] focus:border-aegis-accent/50
             focus:outline-none"
@@ -184,7 +184,7 @@ export default function AssetRegistry()
               </tr>
             </thead>
             <tbody>
-              {pageData.map((node) => (
+              {pageData.map((node: ClassifiedNode) => (
                 <tr
                   key={node.node_uuid}
                   className={`border-b border-aegis-border/10
