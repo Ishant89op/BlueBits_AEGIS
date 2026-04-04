@@ -10,6 +10,9 @@ const navItems = [
   { href: '/schema', icon: 'terminal', label: 'Schema' },
   { href: '/registry', icon: 'inventory_2', label: 'Registry' },
   { href: '/threat-report', icon: 'security', label: 'Threats' },
+  { href: '/resilience', icon: 'healing', label: 'Resilience' },
+  { href: '/topology', icon: 'device_hub', label: 'Topology' },
+  { href: '/chaos', icon: 'science', label: 'Chaos' },
 ];
 
 export default function Sidebar()
