@@ -116,11 +116,11 @@ export default function SchemaConsole()
       </div>
       <div
         ref={terminalRef}
-        className="bg-[#0A0E1A] border border-[#313442]/50 p-4 font-mono
+        className="bg-aegis-terminal border border-aegis-border/50 p-4 font-mono
           text-[11px] h-64 overflow-y-auto"
         style={{
           scrollbarWidth: 'thin',
-          scrollbarColor: '#313442 #0a0e1a',
+          scrollbarColor: 'var(--color-scrollbar-thumb) var(--color-scrollbar-track)',
         }}
       >
         {displayEntries.map((entry: any) => (
@@ -129,10 +129,10 @@ export default function SchemaConsole()
             className={`mb-0.5 ${
               entry.is_rotation_event
                 ? 'text-amber-500 font-bold'
-                : 'text-[#00FF88]/70'
+                : 'text-aegis-accent/70'
             }`}
           >
-            <span className="text-white">
+            <span className="text-aegis-text">
               [{String(entry.log_id).padStart(5, '0')}]
             </span>
             {entry.is_rotation_event
@@ -143,7 +143,7 @@ export default function SchemaConsole()
             }
           </p>
         ))}
-        <p className="text-[#00FF88] animate-pulse mt-1">
+        <p className="text-aegis-accent animate-pulse mt-1">
           _ {rotationEvents.length} schema rotation events detected
         </p>
       </div>

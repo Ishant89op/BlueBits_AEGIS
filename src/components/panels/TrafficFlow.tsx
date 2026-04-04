@@ -154,20 +154,20 @@ export default function TrafficFlow()
       <div className="bg-aegis-bg border border-aegis-border/30 p-4">
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={barData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1F2937" />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--color-grid)" />
             <XAxis
               dataKey="name"
-              stroke="#6B7280"
+              stroke="var(--color-text-muted)"
               tick={{ fontSize: 10, fontFamily: 'JetBrains Mono' }}
             />
             <YAxis
-              stroke="#6B7280"
+              stroke="var(--color-text-muted)"
               tick={{ fontSize: 10, fontFamily: 'JetBrains Mono' }}
             />
             <Tooltip
               contentStyle={{
-                background: '#111827',
-                border: '1px solid #1F2937',
+                background: 'var(--color-surface)',
+                border: '1px solid var(--color-border)',
                 fontSize: 11,
                 fontFamily: 'JetBrains Mono',
               }}
@@ -181,14 +181,14 @@ export default function TrafficFlow()
         </ResponsiveContainer>
       </div>
 
-      <div className="bg-[#0A0E1A] border border-[#313442]/50 p-4 font-mono text-[10px]
-        max-h-48 overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#313442 #0a0e1a' }}>
+      <div className="bg-aegis-terminal border border-aegis-border/50 p-4 font-mono text-[10px]
+        max-h-48 overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: 'var(--color-scrollbar-thumb) var(--color-scrollbar-track)' }}>
         <div className="text-aegis-muted mb-2 uppercase tracking-widest text-[9px]">
           Recent Packets ({traffic.packets.length})
         </div>
         {traffic.packets.slice(-20).reverse().map((pkt) => (
           <div key={pkt.id} className="flex items-center gap-2 py-0.5">
-            <span className="text-white w-20">[{pkt.id}]</span>
+            <span className="text-aegis-text w-20">[{pkt.id}]</span>
             <span className="text-aegis-muted w-12">{pkt.source_node}</span>
             <span className="text-aegis-muted">-&gt;</span>
             <span className="text-aegis-muted w-12">{pkt.destination_node}</span>

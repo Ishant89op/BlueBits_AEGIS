@@ -121,7 +121,7 @@ export default function ChaosSimulator()
             <circle
               cx="50" cy="50" r="42"
               fill="none"
-              stroke="#1F2937"
+              stroke="var(--color-grid)"
               strokeWidth="6"
             />
             <circle
@@ -239,8 +239,8 @@ export default function ChaosSimulator()
         </div>
       </div>
 
-      <div className="bg-[#0A0E1A] border border-[#313442]/50 p-4 font-mono text-[10px]
-        max-h-36 overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#313442 #0a0e1a' }}>
+      <div className="bg-aegis-terminal border border-aegis-border/50 p-4 font-mono text-[10px]
+        max-h-36 overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: 'var(--color-scrollbar-thumb) var(--color-scrollbar-track)' }}>
         <div className="text-aegis-muted mb-2 uppercase tracking-widest text-[9px]">
           Chaos Event Log
         </div>

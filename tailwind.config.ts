@@ -17,6 +17,10 @@ const config: Config = {
         'aegis-danger': 'var(--color-danger)',
         'aegis-text': 'var(--color-text)',
         'aegis-muted': 'var(--color-text-muted)',
+        'aegis-deep': 'var(--color-deep)',
+        'aegis-terminal': 'var(--color-terminal)',
+        'aegis-tooltip': 'var(--color-tooltip)',
+        'aegis-grid': 'var(--color-grid)',
       },
       fontFamily: {
         headline: ['Inter', 'sans-serif'],

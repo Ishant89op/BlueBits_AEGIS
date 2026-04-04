@@ -143,7 +143,7 @@ export default function LoadBalancerStatus()
             {activeRatio}%
           </span>
         </div>
-        <div className="w-full bg-[#1F2937] h-3 rounded-full overflow-hidden">
+        <div className="w-full bg-aegis-deep h-3 rounded-full overflow-hidden">
           <div
             className="h-full rounded-full transition-all duration-700"
             style={{

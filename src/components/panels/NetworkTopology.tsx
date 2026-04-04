@@ -126,7 +126,7 @@ export default function NetworkTopology()
         ))}
       </div>
 
-      <div className="bg-[#060A14] border border-aegis-border/30 relative overflow-hidden"
+      <div className="bg-aegis-deep border border-aegis-border/30 relative overflow-hidden"
         style={{ height: '520px' }}>
         <svg width="100%" height="100%" viewBox="0 0 1100 520">
           {filteredEdges.map((edge, i) =>
@@ -141,7 +141,7 @@ export default function NetworkTopology()
                 y1={source.y}
                 x2={target.x}
                 y2={target.y}
-                stroke={edge.is_active ? '#1F2937' : '#EF4444'}
+                stroke={edge.is_active ? 'var(--color-grid)' : '#EF4444'}
                 strokeWidth={edge.is_active ? 0.5 : 1}
                 strokeDasharray={edge.is_active ? undefined : '4 2'}
                 opacity={edge.is_active ? 0.4 : 0.6}
@@ -212,7 +212,7 @@ export default function NetworkTopology()
 
       {hoveredNode && (
         <div
-          className="fixed z-[60] w-56 p-3 bg-[#262a37] border border-aegis-accent/30
+          className="fixed z-[60] w-56 p-3 bg-aegis-tooltip border border-aegis-accent/30
             backdrop-blur-xl shadow-2xl pointer-events-none"
           style={{
             left: tooltipPos.x + 14,

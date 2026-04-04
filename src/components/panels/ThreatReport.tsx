@@ -117,8 +117,8 @@ export default function ThreatReportPanel()
                 </Pie>
                 <Tooltip
                   contentStyle={{
-                    background: '#111827',
-                    border: '1px solid #1F2937',
+                    background: 'var(--color-surface)',
+                    border: '1px solid var(--color-border)',
                     fontSize: 11,
                     fontFamily: 'JetBrains Mono',
                   }}

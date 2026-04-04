@@ -95,22 +95,22 @@ export default function SleeperHeatmap()
       <div className="bg-aegis-bg border border-aegis-border/30 p-4">
         <ResponsiveContainer width="100%" height={220}>
           <LineChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1F2937" />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--color-grid)" />
             <XAxis
               dataKey="log_id"
-              stroke="#6B7280"
+              stroke="var(--color-text-muted)"
               tick={{ fontSize: 9, fontFamily: 'JetBrains Mono' }}
               tickFormatter={(v: number) => `${v}`}
             />
             <YAxis
-              stroke="#6B7280"
+              stroke="var(--color-text-muted)"
               tick={{ fontSize: 9, fontFamily: 'JetBrains Mono' }}
               domain={[100, 260]}
             />
             <Tooltip
               contentStyle={{
-                background: '#111827',
-                border: '1px solid #1F2937',
+                background: 'var(--color-surface)',
+                border: '1px solid var(--color-border)',
                 fontSize: 10,
                 fontFamily: 'JetBrains Mono',
               }}
