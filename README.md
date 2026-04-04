@@ -19,10 +19,27 @@ Project AEGIS is a cyber defense infrastructure console designed to identify com
 
 ## Features
 
+### Round 1 - Forensic Defense Console
 - Forensic City Map: A visual mapping tool that categorizes nodes by underlying HTTP status rather than misleading JSON labels.
 - Sleeper Node Detection Heatmap: Tracks API response times to identify anomalies indicating dormant malware.
 - Dynamic Schema Console: A live terminal monitoring decoding rotations and data parsing versions.
 - Asset Registry: A comprehensive, sortable directory correlating Node UUIDs and encoded serials.
+- Threat Report: Full threat assessment with Shadow Controller identification.
+
+### Round 2 - Resilient Network Architecture
+- Live Network Topology Map: SVG-rendered graph of 500 nodes across 10 clusters with gateway nodes, health color-coding, and cluster filtering.
+- Real-time Traffic Flow Visualizer: Packet routing analysis with three load balancing algorithms (round-robin, least-latency, weighted), delivery rate metrics, and live refresh mode.
+- Chaos Failure Simulation Panel: Inject DDoS floods, node shutdowns, packet corruption, and latency spikes with configurable severity. Tracks resilience score and recovery.
+- Load Balancer Status: Algorithm comparison dashboard showing active/failed node ratios, failover counts, and routing metrics.
+- Self-healing Network: Automatic traffic rerouting via BFS pathfinding when nodes fail, with cluster-aware failover prioritization.
+
+### Load Balancing Algorithms
+
+| Algorithm | Strategy | Best For |
+|---|---|---|
+| Round Robin | Sequential distribution across all active nodes | Even load distribution |
+| Least Latency | Routes to node with lowest response time | Performance-critical paths |
+| Weighted | Probabilistic routing based on health weight scores | Degraded network conditions |
 
 ## Installation
 
